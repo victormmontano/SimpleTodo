@@ -1,14 +1,14 @@
 package com.example.simpletodo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 
 public class AddActivity extends AppCompatActivity {
 
@@ -31,6 +31,9 @@ public class AddActivity extends AppCompatActivity {
 
         position = -1;
 
+        getSupportActionBar().setTitle("Add item");
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,25 +42,16 @@ public class AddActivity extends AppCompatActivity {
                     etTodo.setError("Field is required");
                 } else {
                     String notes = etNotes.getText().toString();
-                    if(notes.isEmpty())
-                        notes = "";
                     String date = etDate.getText().toString();
-                    if(date.isEmpty())
-                        date = "";
                     String time = etTime.getText().toString();
-                    if(time.isEmpty())
-                        time = "";
                     String priority = prioritySpinner.getSelectedItem().toString();
-                    if(priority.isEmpty())
-                        priority = "None";
 
                     Intent i = new Intent(AddActivity.this, MainActivity.class);
-                    i.putExtra("task", task);
-                    i.putExtra("notes", notes);
-                    i.putExtra("date", date);
-                    i.putExtra("time", time);
-                    i.putExtra("priority", priority);
-                   // i.putExtra("position", position);
+                    i.putExtra(MainActivity.KEY_TASK_TEXT, task);
+                    i.putExtra(MainActivity.KEY_NOTES_TEXT, notes);
+                    i.putExtra(MainActivity.KEY_DATE_TEXT, date);
+                    i.putExtra(MainActivity.KEY_TIME_TEXT, time);
+                    i.putExtra(MainActivity.KEY_PRIORITY_TEXT, priority);
 
                     startActivity(i);
 

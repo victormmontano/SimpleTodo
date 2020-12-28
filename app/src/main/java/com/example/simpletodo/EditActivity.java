@@ -1,13 +1,15 @@
 package com.example.simpletodo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
 
 public class EditActivity extends AppCompatActivity {
 
@@ -38,12 +40,12 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i  = new Intent();
-                i.putExtra("task", etTodo.getText().toString());
-                i.putExtra("notes", etNotes.getText().toString());
-                i.putExtra("date", etDate.getText().toString());
-                i.putExtra("time", etTime.getText().toString());
-                i.putExtra("priority", prioritySpinner.getSelectedItem().toString());
-                i.putExtra("position", position);
+                i.putExtra(MainActivity.KEY_TASK_TEXT, etTodo.getText().toString());
+                i.putExtra(MainActivity.KEY_NOTES_TEXT, etNotes.getText().toString());
+                i.putExtra(MainActivity.KEY_DATE_TEXT, etDate.getText().toString());
+                i.putExtra(MainActivity.KEY_TIME_TEXT, etTime.getText().toString());
+                i.putExtra(MainActivity.KEY_PRIORITY_TEXT, prioritySpinner.getSelectedItem().toString());
+                i.putExtra(MainActivity.KEY_POSITION, position);
 
                 setResult(RESULT_OK, i);
                 finish();
@@ -57,12 +59,12 @@ public class EditActivity extends AppCompatActivity {
 
 
     private void setItem(Intent intent) {
-        String task = intent.getStringExtra("task");
+        String task = intent.getStringExtra(MainActivity.KEY_TASK_TEXT);
         if(task != null) {
-            String notes = intent.getStringExtra("notes");
-            String date = intent.getStringExtra("date");
-            String time = intent.getStringExtra("time");
-            String priority = intent.getStringExtra("priority");
+            String notes = intent.getStringExtra(MainActivity.KEY_NOTES_TEXT);
+            String date = intent.getStringExtra(MainActivity.KEY_DATE_TEXT);
+            String time = intent.getStringExtra(MainActivity.KEY_TIME_TEXT);
+            String priority = intent.getStringExtra(MainActivity.KEY_PRIORITY_TEXT);
             etTodo.setText(task);
             etNotes.setText(notes);
             etDate.setText(date);
@@ -75,7 +77,7 @@ public class EditActivity extends AppCompatActivity {
             else if(priority.equals("High"))
                 index = 3;
             prioritySpinner.setSelection(index);
-            position = intent.getIntExtra("position", -1);
+            position = intent.getIntExtra(MainActivity.KEY_POSITION, -1);
         }
     }
 

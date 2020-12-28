@@ -1,15 +1,20 @@
 package com.example.simpletodo;
 
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
+import java.util.Date;
+
+
 public class ItemHolder extends RecyclerView.ViewHolder {
 
     TextView iPriority, iTask, iDate, iTime, iNotes;
+    Button btnUp, btnDown;
 
 
     public ItemHolder(@NonNull final View itemView, final ItemClickListener clickListener,
@@ -21,8 +26,6 @@ public class ItemHolder extends RecyclerView.ViewHolder {
         this.iDate = itemView.findViewById(R.id.tvDate);
         this.iTime = itemView.findViewById(R.id.tvTime);
         this.iNotes = itemView.findViewById(R.id.tvNotes);
-
-       // this.editItem = itemView.findViewById(R.id.editItem);
 
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -56,6 +59,7 @@ public class ItemHolder extends RecyclerView.ViewHolder {
         iTask.setText(task);
 
         String date = item.getDate();
+
         if(date.isEmpty())
             iDate.setVisibility(View.GONE);
         else {

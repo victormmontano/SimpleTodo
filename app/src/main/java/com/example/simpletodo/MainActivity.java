@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,7 +25,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etItem;
+    public static final String KEY_TASK_TEXT = "task_text";
+    public static final String KEY_NOTES_TEXT = "notes_text";
+    public static final String KEY_DATE_TEXT = "date_text";
+    public static final String KEY_TIME_TEXT = "time_text";
+    public static final String KEY_PRIORITY_TEXT = "priority_text";
+    public static final String KEY_POSITION = "item_position";
+    public static final int EDIT_TEXT_CODE = 20;
+
+
     FloatingActionButton btnAdd;
     RecyclerView rvItems;
     ItemAdapter itemAdapter;
@@ -41,28 +47,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etItem = findViewById(R.id.editItem);
         btnAdd = findViewById(R.id.btnAdd);
         rvItems = findViewById(R.id.itemRecycler);
 
-        loadItems();//items = new ArrayList<>();
+        loadItems();
 
         ItemClickListener onClickListener = new ItemClickListener() {
             @Override
             public void onItemClicked(int position) {
                 Intent i = new Intent(MainActivity.this, EditActivity.class);
                 Item item = items.get(position);
-                i.putExtra("task", item.getTask());
-                i.putExtra("notes", item.getNotes());
-                i.putExtra("date", item.getDate());
-                i.putExtra("time", item.getTime());
-                i.putExtra("priority", item.getPriority());
-                i.putExtra("position", position);
-                /*items.remove(position);
-                for(int j = 0 ; j < 5; j++)
-                    itemData.remove(position*5);
-                saveItems();*/
-                startActivityForResult(i, 20);
+                i.putExtra(KEY_TASK_TEXT, item.getTask());
+                i.putExtra(KEY_NOTES_TEXT, item.getNotes());
+                i.putExtra(KEY_DATE_TEXT, item.getDate());
+                i.putExtra(KEY_TIME_TEXT, item.getTime());
+                i.putExtra(KEY_PRIORITY_TEXT, item.getPriority());
+                i.putExtra(KEY_POSITION, position);
+                startActivityForResult(i, EDIT_TEXT_CODE);
             }
         };
 
@@ -88,12 +89,6 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*String item = etItem.getText().toString();
-                items.add(item);
-                itemAdapter.notifyItemInserted(items.size()-1);
-                etItem.setText("");
-                Toast.makeText(getApplicationContext(), "item was added.", Toast.LENGTH_SHORT).show();
-                saveItems();*/
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(intent);
             }
@@ -106,14 +101,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 20) {
-            String task = data.getStringExtra("task");
-            String notes = data.getStringExtra("notes");
-            String date = data.getStringExtra("date");
-            String time = data.getStringExtra("time");
-            String priority = data.getStringExtra("priority");
-            int position = data.getIntExtra("position", -1);
-
+        if (resultCode == RESULT_OK && requestCode == EDIT_TEXT_CODE) {
+            String task = data.getStringExtra(KEY_TASK_TEXT);
+            String notes = data.getStringExtra(KEY_NOTES_TEXT);
+            String date = data.getStringExtra(KEY_DATE_TEXT);
+            String time = data.getStringExtra(KEY_TIME_TEXT);
+            String priority = data.getStringExtra(KEY_PRIORITY_TEXT);
+            int position = data.getIntExtra(KEY_POSITION, -1);
+            Log.d("CHECK THIS PLEASE", Integer.toString(position));
             items.remove(position);
             Item item = new Item(task, notes, date, time, priority);
             items.add(position, item);
@@ -151,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
             itemData = new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset()));
             items = new ArrayList<>();
 
-            for(int i = 0; i < itemData.size(); i++){
-                Log.d("!!Print", itemData.get(i));
-            }
-
-
             for(int i = 0; i < itemData.size(); i+=5){
                 String todo = itemData.get(i);
                 String notes = itemData.get(i+1);
@@ -184,17 +174,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setItem(Intent intent){
-      /*  i.putExtra("task", task);
-        i.putExtra("notes", notes);
-        i.putExtra("date", date);
-        i.putExtra("time", time);
-        i.putExtra("priority", priority);*/
-        String task = intent.getStringExtra("task");
+        String task = intent.getStringExtra(KEY_TASK_TEXT);
         if(task != null) {
-            String notes = intent.getStringExtra("notes");
-            String date = intent.getStringExtra("date");
-            String time = intent.getStringExtra("time");
-            String priority = intent.getStringExtra("priority");
+            String notes = intent.getStringExtra(KEY_NOTES_TEXT);
+            String date = intent.getStringExtra(KEY_DATE_TEXT);
+            String time = intent.getStringExtra(KEY_TIME_TEXT);
+            String priority = intent.getStringExtra(KEY_PRIORITY_TEXT);
             itemData.add(task);
             itemData.add(notes);
             itemData.add(date);
@@ -208,17 +193,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    /*@Override
-    public void onStop() {
-        super.onStop();
-        try {
-            FileUtils.writeLines(getDataFile(), null);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d("MainActivity", "Error writing items", e);
-        }
-    }*/
-
-
 }

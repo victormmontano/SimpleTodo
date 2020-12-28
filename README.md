@@ -22,7 +22,7 @@ The following **additional** features are implemented:
 
 * [X] User can add **notes** to an item
 * [X] User can add **Date & Time** to an item
-* [X ] User can add **Priority** to an item
+* [X] User can add **Priority** to an item
 
 ## Video Walkthrough
 

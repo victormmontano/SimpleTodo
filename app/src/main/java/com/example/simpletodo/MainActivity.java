@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemLongClicked(int position) {
                 items.remove(position);
                 for(int i = 0; i <  5; i++)
-                    itemData.remove(position);
+                    itemData.remove(position*5);
                 itemAdapter.notifyItemRemoved(position);
                 Toast.makeText(getApplicationContext(), "item was removed.", Toast.LENGTH_SHORT).show();
                 saveItems();
@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             String time = data.getStringExtra(KEY_TIME_TEXT);
             String priority = data.getStringExtra(KEY_PRIORITY_TEXT);
             int position = data.getIntExtra(KEY_POSITION, -1);
-            Log.d("CHECK THIS PLEASE", Integer.toString(position));
             items.remove(position);
             Item item = new Item(task, notes, date, time, priority);
             items.add(position, item);

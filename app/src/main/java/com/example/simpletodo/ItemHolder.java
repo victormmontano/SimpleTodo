@@ -2,6 +2,7 @@ package com.example.simpletodo;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,6 @@ import java.util.Date;
 public class ItemHolder extends RecyclerView.ViewHolder {
 
     TextView iPriority, iTask, iDate, iTime, iNotes;
-    Button btnUp, btnDown;
 
 
     public ItemHolder(@NonNull final View itemView, final ItemClickListener clickListener,
@@ -60,8 +60,9 @@ public class ItemHolder extends RecyclerView.ViewHolder {
 
         String date = item.getDate();
 
-        if(date.isEmpty())
+        if(date.isEmpty()) {
             iDate.setVisibility(View.GONE);
+        }
         else {
             iDate.setVisibility(View.VISIBLE);
             iDate.setText(date);

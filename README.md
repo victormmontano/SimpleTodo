@@ -34,7 +34,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Adding the extra features to my items was a challenge since I wanted to continue using the FileUtils method to save my data. I had my items saved as classes and FileUtils could not support that, so I saved them as organized Strings in an ArrayList, then created a function to parse my data into my Item classes.
+Adding the extra features to my items was a challenge since I wanted to continue using the FileUtils method to save my data. I had my items saved as classes and FileUtils could not support that, so I saved them as organized Strings in an ArrayList, then created a function to parse my data into Item objects.
 
 ## License
 
